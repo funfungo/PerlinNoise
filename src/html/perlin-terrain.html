@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/noise/perlin.js"></script>
+    <script src="../js/util.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            width: 500px;
+            position: absolute;
+            left: 50%;
+            margin-left: -250px;
+            top: 50px;
+            border: 1px solid #000000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#000";
+    ctx.strokeStyle = "#000";
+    var width = canvas.width = 500;
+    var height = canvas.height = 500;
+    ctx.translate(width / 2, height / 2);
+    noise.seed(Math.random());
+
+    var offset = 0;
+    function loop() {
+
+
+    }
+
+    loop();
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/noise/perlin.js"></script>
+    <script src="../js/util.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            width: 1000px;
+            position: absolute;
+            left: 50%;
+            margin-left: -500px;
+            top: 50px;
+            border: 1px solid #000000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#000";
+    ctx.strokeStyle = "#000";
+    var width = canvas.width = 1000;
+    var height = canvas.height = 500;
+    ctx.translate(width / 2, height / 2);
+
+    var lastPosition = 0;
+    noise.seed(Math.random());
+
+    var xOffset = 0;
+    var yOffset = 0;
+    function loop() {
+
+        ctx.fillStyle = "rgba(255,255,255, 0.1)";
+        ctx.fillRect(-width/2, -height/2, width, height);
+//        ctx.clearRect(-width/2, -height/2, width, height);
+
+        ctx.beginPath();
+        for (var i = 0; i < width; i++) {
+
+            var noiseVal = noise.simplex2(3+xOffset, i / 300 + yOffset);
+            var y = util.map(noiseVal, -1, 1, -70, 70);
+
+            ctx.moveTo(i - width / 2, lastPosition);
+            ctx.lineTo(i - width / 2, y);
+            lastPosition = y;
+        }
+        ctx.stroke();
+
+//        lastPosition = 0;
+
+        xOffset += 2/200;
+        yOffset += 2/100;
+        requestAnimationFrame(loop);
+    }
+
+    loop();
+</script>
+</body>
+</html>
