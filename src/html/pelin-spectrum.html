@@ -24,40 +24,50 @@
 <body>
 <canvas id="canvas"></canvas>
 <script>
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#000";
-    ctx.strokeStyle = "#000";
-    var width = canvas.width = 500;
-    var height = canvas.height = 500;
-    ctx.translate(width / 2, height / 2);
+    var animation = null;
+    (function () {
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#000";
+        ctx.strokeStyle = "#000";
+        var width = canvas.width = 500;
+        var height = canvas.height = 500;
+        ctx.translate(width / 2, height / 2);
 
-    var lastPosition = 0;
-    noise.seed(Math.random());
+        var lastPosition = 0;
+        noise.seed(Math.random());
 
-    var offset = 0;
-    function loop() {
+        var offset = 0;
+        function loop() {
 
-        ctx.clearRect(-width/2, -height/2, width, height);
-
-        for (var i = 0; i < width; i++) {
-
-            var noiseVal = noise.simplex2(1, i / 100 + offset);
-            var y = util.map(noiseVal, -1, 1, -height / 2, height / 2);
+            ctx.clearRect(-width/2, -height/2, width, height);
 
             ctx.beginPath();
-            ctx.moveTo(i - width / 2, lastPosition);
-            ctx.lineTo(i - width / 2, y);
+            for (var i = 0; i < width; i++) {
+
+                var noiseVal = noise.simplex2(1, i / 100 + offset);
+                var y = util.map(noiseVal, -1, 1, -height / 2, height / 2);
+
+                ctx.moveTo(i - width / 2, lastPosition);
+                ctx.lineTo(i - width / 2, y);
+                lastPosition = y;
+            }
             ctx.stroke();
-            lastPosition = y;
+
+            lastPosition = 0;
+
+//        offset += 1/100;
+
+            animation = requestAnimationFrame(loop);
         }
-        lastPosition = 0;
 
-        offset += 1/100;
-        requestAnimationFrame(loop);
-    }
+        function initPerlinCurve() {
+            cancelAnimationFrame(animation);
+            loop();
+        }
+        initPerlinCurve();
+    })();
 
-    loop();
 </script>
 </body>
 </html>

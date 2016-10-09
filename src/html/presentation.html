@@ -3,12 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="../css/style-index.css" rel="stylesheet">
+    <script src="../js/lib/jquery-1.11.1.min.js"></script>
+    <script src="../js/lib/highlight.pack.js"></script>
+    <script src="../js/noise/perlin.js"></script>
+    <script src="../js/util.js"></script>
+    <script src="../js/vector3.js"></script>
+    <script src="../js/canvas/page2.js"></script>
 </head>
 <body>
-    <div class="left">
-        <canvas id="canvas"></canvas>
+<div class="page page1">
+    <div class="content">
+        <h1>动画中的随机数</h1>
+        <h2>RANDOM FUNCTION IN ANIMATION</h2>
     </div>
-    <div class="right"></div>
+</div>
 
+
+<div class="page page2">
+
+    <div class="canvas__wrap">
+        <div class="canvas__head">
+            <h2>什么样的动画需要随机数?</h2>
+            <h3>需要算法生成的动画,例如:粒子动画</h3>
+        </div>
+        <canvas class="canvas canvas2" width="600" height="500"></canvas>
+    </div>
+    <div class="content__change">
+        <a href="#">step1</a>
+        <a href="#">step2</a>
+        <a href="#">step3</a>
+        <a href="http://tympanus.net/Tutorials/TheAviator/" target="_blank">demo1</a>
+    </div>
+</div>
+
+
+<div class="page page3">
+    <div class="wrap__canvas-code">
+        <div class="canvas__head">
+            <h2>Math.random( )</h2>
+        </div>
+        <div class="left">
+            <div class="step step0">
+                <img src="../img/random.png">
+            </div>
+            <div class="step step1">
+                <img src="../img/random-graph.png">
+            </div>
+
+        </div>
+        <div class="right">
+            <div class="code code1">
+                    <pre><code class="javascript">
+function randomRage(start, range){
+
+    return start + Math.random()*range
+
+}
+                    </code>
+                    </pre>
+                    <pre><code class="javascript">
+function randomProportion(){
+    var randomNum = Math.random();
+
+    if(random<0.5){
+        //灰色
+    }else if(random>0.5){
+        //黑色
+    }
+}
+                    </code></pre>
+            </div>
+        </div>
+    </div>
+    <div class="content__change">
+        <a href="#">直观图</a>
+        <a href="#">概率图</a>
+    </div>
+</div>
+
+
+<div class="page page4">
+    <div class="wrap__canvas-code">
+        <div class="canvas__head">
+            <h2>正态分布</h2>
+            <h3>Normal Distribution</h3>
+        </div>
+        <div class="left">
+            <div class="step step0">
+                <img src="../img/normal.png">
+            </div>
+            <div class="step step1">
+
+            </div>
+        </div>
+        <div class="right">
+            <div class="step step0">
+                  <pre><code class="javascript">
+function getNumberInNormalDistribution(mean,range){
+
+    return mean+(uniform2NormalDistribution()*range);
+
+}
+
+function uniform2NormalDistribution(){
+
+    var sum=0.0;
+
+    for(var i=0; i<12; i++){
+        sum=sum+Math.random();
+    }
+
+    return sum-6.0;
+}
+                  </code></pre>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content__change">
+        <a href="#">image</a>
+        <a href="#">canvas</a>
+    </div>
+</div>
+
+<div class="page page5">
+    <div class="wrap__canvas-code">
+        <div class="canvas__head">
+            <h2>柏林噪音</h2>
+            <h3>Perlin noise</h3>
+
+        </div>
+        <div class="left">
+            <canvas id="perlinCurve"></canvas>
+        </div>
+        <div class="right">
+            <pre><code class="javascript">
+//初始化
+noise.seed(Math.random());
+
+//取值
+noise.simplex2(1,1);
+//or
+noise.simplex3(1,1,1);
+
+            </code></pre>
+        </div>
+
+    </div>
+    <div class="content__change">
+        <a href="#" id="perlinCurve">reload</a>
+        <a href="#" id="randomCurve">random</a>
+    </div>
+</div>
+
+<div class="page page6">
+    <div class="wrap__canvas-code">
+        <div class="canvas__head">
+            <h2>柏林噪音</h2>
+            <h3>Perlin noise</h3>
+
+        </div>
+        <div class="left">
+            <canvas id="perlinWave"></canvas>
+        </div>
+        <div class="right">
+            <pre><code class="javascript">
+
+
+            </code></pre>
+        </div>
+    </div>
+</div>
+<div class="index">
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+    <a href="#">6</a>
+    <a href="#">7</a>
+    <a href="#">8</a>
+</div>
+<script>
+    function changePage(index) {
+        $(".page").hide();
+        $(".page").removeClass("active");
+        $(".page" + index).show();
+        $(".page" + index).addClass("active");
+        $(".index a").removeClass("active");
+        $(".index a").eq(index - 1).addClass("active");
+    }
+
+    var noise;
+    //debug
+    changePage(6);
+    initPageCanvas2();
+    hljs.initHighlightingOnLoad();
+    $(document).ready(function () {
+        $('pre code').each(function (i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+
+    $(".content__change a").on("click", function () {
+        var id = $(this).attr("id");
+        if(id == "undefined"){
+
+            $(".content__change a").removeClass("active");
+            $(this).addClass("active");
+            var index = $(this).parent().children().index($(this));
+            $(".active .step").hide();
+            $(".active .step" + index).show();
+        }
+
+        else if(id == "perlinCurve"){
+            initPerlinCurve();
+        }
+        else if(id == "randomCurve"){
+            initRandomCurve();
+        }
+
+
+    });
+    $(".index a").on("click", function () {
+        var index = $(this).parent().children().index($(this)) + 1;
+        changePage(index);
+    });
+
+    var animation = null;
+    (function () {
+        var canvas = document.getElementById("perlinCurve");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#000";
+        ctx.strokeStyle = "#000";
+        var width = canvas.width = canvas.parentElement.clientWidth - 50;
+        var height = canvas.height = canvas.parentElement.clientHeight - 50;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        ctx.translate(width / 2, height / 2);
+
+        var lastPosition = null;
+
+        var offset = 0;
+        window.initPerlinCurve = function () {
+            noise.seed(Math.random());
+            lastPosition = null;
+            ctx.clearRect(-width/2, -height/2, width, height);
+
+            ctx.beginPath();
+            for (var i = 0; i < width; i++) {
+
+                var noiseVal = noise.simplex2(1, i / 100 + offset);
+                var y = util.map(noiseVal, -1, 1, -height / 2, height / 2);
+                if(lastPosition === null){
+                    lastPosition = y;
+                }
+                ctx.moveTo(i - width / 2, lastPosition);
+                ctx.lineTo(i - width / 2, y);
+                lastPosition = y;
+            }
+            ctx.stroke();
+
+            lastPosition = 0;
+        };
+
+        window.initRandomCurve = function () {
+            lastPosition = null;
+            ctx.clearRect(-width/2, -height/2, width, height);
+            ctx.beginPath();
+            for (var i = 0; i < width; i++) {
+
+                var y = util.map(Math.random()-0.5, -0.5, 0.5, -height / 2, height / 2);
+                if(lastPosition === null){
+                    lastPosition = y;
+                }
+                ctx.moveTo(i - width / 2, lastPosition);
+                ctx.lineTo(i - width / 2, y);
+                lastPosition = y;
+            }
+            ctx.stroke();
+        }
+    })();
+    initPerlinCurve();
+</script>
 </body>
 </html>
