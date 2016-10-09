@@ -194,6 +194,9 @@ noise.simplex3(1,1,1);
         $(".page" + index).addClass("active");
         $(".index a").removeClass("active");
         $(".index a").eq(index - 1).addClass("active");
+        if(index === 5){
+            initPerlinCurve();
+        }
     }
 
     var noise;
@@ -238,16 +241,18 @@ noise.simplex3(1,1,1);
         var ctx = canvas.getContext("2d");
         ctx.fillStyle = "#000";
         ctx.strokeStyle = "#000";
-        var width = canvas.width = canvas.parentElement.clientWidth - 50;
-        var height = canvas.height = canvas.parentElement.clientHeight - 50;
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
-        ctx.translate(width / 2, height / 2);
+        var width = canvas.width = canvas.parentElement.clientWidth - 80;
+        var height = canvas.height = canvas.parentElement.clientHeight - 80;
 
         var lastPosition = null;
 
         var offset = 0;
         window.initPerlinCurve = function () {
+            width = canvas.width = canvas.parentElement.clientWidth - 80;
+            height = canvas.height = canvas.parentElement.clientHeight - 80;
+            canvas.style.width = width + "px";
+            canvas.style.height = height + "px";
+            ctx.translate(width / 2, height / 2);
             noise.seed(Math.random());
             lastPosition = null;
             ctx.clearRect(-width/2, -height/2, width, height);
@@ -286,7 +291,6 @@ noise.simplex3(1,1,1);
             ctx.stroke();
         }
     })();
-    initPerlinCurve();
 </script>
 </body>
 </html>
