@@ -31,7 +31,7 @@ function initPageCanvas2() {
             ctx.moveTo(this.x, this.y)
             ctx.lineTo(dots[i].x, dots[i].y)
             ctx.closePath()
-            ctx.strokeStyle = '#205E88'
+            ctx.strokeStyle = '#333'
             ctx.stroke()
             ctx.globalAlpha = 0.2
         }

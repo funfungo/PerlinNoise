@@ -127,16 +127,26 @@ function uniform2NormalDistribution(){
         <a href="#">canvas</a>
     </div>
 </div>
-
 <div class="page page5">
+    <div class="canvas__wrap">
+        <div class="canvas__head">
+            <h2>更加有趣的随机数?</h2>
+        </div>
+        <canvas id="perlinWaveCanvas"></canvas>
+    </div>
+</div>
+<div class="page page6">
     <div class="wrap__canvas-code">
         <div class="canvas__head">
             <h2>柏林噪音</h2>
-            <h3>Perlin noise</h3>
+            <h3>Perlin Noise</h3>
 
         </div>
         <div class="left">
-            <canvas id="perlinCurve"></canvas>
+            <canvas id="perlinCurveCanvas"></canvas>
+            <div class="page6__index">
+                <i>X</i>
+            </div>
         </div>
         <div class="right">
             <pre><code class="javascript">
@@ -144,8 +154,9 @@ function uniform2NormalDistribution(){
 noise.seed(Math.random());
 
 //取值
+//二维
 noise.simplex2(1,1);
-//or
+//三维
 noise.simplex3(1,1,1);
 
             </code></pre>
@@ -158,11 +169,11 @@ noise.simplex3(1,1,1);
     </div>
 </div>
 
-<div class="page page6">
+<div class="page page7">
     <div class="wrap__canvas-code">
         <div class="canvas__head">
             <h2>柏林噪音</h2>
-            <h3>Perlin noise</h3>
+            <h3>Perlin oise</h3>
 
         </div>
         <div class="left">
@@ -181,27 +192,32 @@ noise.simplex3(1,1,1);
     <a href="#">2</a>
     <a href="#">3</a>
     <a href="#">4</a>
-    <a href="#">5</a>
-    <a href="#">6</a>
+    <a href="#" data-tag="perlinWave">5</a>
+    <a href="#" data-tag="perlinCurve">6</a>
     <a href="#">7</a>
     <a href="#">8</a>
 </div>
 <script>
+
+
+    var noise;
     function changePage(index) {
+        var tag = $(".index a").eq(index-1).attr("data-tag");
         $(".page").hide();
         $(".page").removeClass("active");
         $(".page" + index).show();
         $(".page" + index).addClass("active");
         $(".index a").removeClass("active");
         $(".index a").eq(index - 1).addClass("active");
-        if(index === 5){
+        if(tag === "perlinCurve"){
             initPerlinCurve();
+        }
+        else if(tag === "perlinWave"){
+            initPerlinWave();
         }
     }
 
-    var noise;
-    //debug
-    changePage(6);
+
     initPageCanvas2();
     hljs.initHighlightingOnLoad();
     $(document).ready(function () {
@@ -210,9 +226,10 @@ noise.simplex3(1,1,1);
         });
     });
 
+//    事件
     $(".content__change a").on("click", function () {
         var id = $(this).attr("id");
-        if(id == "undefined"){
+        if(id == undefined){
 
             $(".content__change a").removeClass("active");
             $(this).addClass("active");
@@ -220,27 +237,29 @@ noise.simplex3(1,1,1);
             $(".active .step").hide();
             $(".active .step" + index).show();
         }
-
         else if(id == "perlinCurve"){
             initPerlinCurve();
+            $(".page6__index").show();
         }
         else if(id == "randomCurve"){
             initRandomCurve();
+            $(".page6__index").hide();
         }
-
-
     });
     $(".index a").on("click", function () {
         var index = $(this).parent().children().index($(this)) + 1;
         changePage(index);
     });
 
+
+    //动画
     var animation = null;
+
+    //perlinCurve
     (function () {
-        var canvas = document.getElementById("perlinCurve");
+        var canvas = document.getElementById("perlinCurveCanvas");
         var ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#000";
-        ctx.strokeStyle = "#000";
+        ctx.strokeStyle = "#222";
         var width = canvas.width = canvas.parentElement.clientWidth - 80;
         var height = canvas.height = canvas.parentElement.clientHeight - 80;
 
@@ -289,8 +308,70 @@ noise.simplex3(1,1,1);
                 lastPosition = y;
             }
             ctx.stroke();
+        };
+
+
+
+    })();
+
+
+    //perlinWave;
+    (function () {
+        var canvas = document.getElementById("perlinWaveCanvas");
+        var ctx = canvas.getContext("2d");
+
+        var width = canvas.width = canvas.parentElement.clientWidth - 80;
+        var height = canvas.height = canvas.parentElement.clientHeight - 80;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        var lastPosition = null;
+
+        var offset = 0;
+        var xOffset = 0;
+        var yOffset = 0;
+        function perlinWaveloop() {
+            width = canvas.width = canvas.parentElement.clientWidth;
+            height = canvas.height = canvas.parentElement.clientHeight;
+            canvas.style.width = width + "px";
+            canvas.style.height = height + "px";
+            ctx.strokeStyle = "#222";
+            ctx.lineWidth = 1;
+            ctx.translate(width / 2, height / 2);
+            lastPosition = null;
+            ctx.clearRect(-width/2, -height/2, width, height);
+//            ctx.strokeStyle = "#999";
+
+            ctx.beginPath();
+            for (var i = 0; i < width; i++) {
+
+                var noiseVal = noise.simplex2(3+xOffset, i / 300 + yOffset);
+                var y = util.map(noiseVal, -1, 1, -70, 70);
+                if(lastPosition === null){
+                    lastPosition = y;
+                }
+                ctx.moveTo(i - width / 2, lastPosition);
+                ctx.lineTo(i - width / 2, y);
+                lastPosition = y;
+            }
+            ctx.stroke();
+            xOffset += 2/200;
+            yOffset += 2/100;
+            animation = requestAnimationFrame(perlinWaveloop);
+        }
+        window.initPerlinWave = function () {
+            lastPosition = null;
+            xOffset = 0;
+            yOffset = 0;
+            if(animation !== null){
+                cancelAnimationFrame(animation);
+            }
+            perlinWaveloop();
         }
     })();
+
+
+    //debug
+    changePage(6);
 </script>
 </body>
 </html>
