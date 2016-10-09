@@ -11,26 +11,39 @@
             margin: 0;
             padding: 0;
         }
-
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
         canvas {
-            width: 500px;
-            position: absolute;
-            left: 50%;
-            margin-left: -250px;
-            top: 50px;
+            /*width: 500px;*/
+            /*position: absolute;*/
+            /*left: 50%;*/
+            /*margin-left: -250px;*/
+            /*top: 50px;*/
             border: 1px solid #000000;
+        }
+        .wrap{
+            padding-top: 100px;
+            width: 600px;
+            height: 500px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<div class="wrap">
+    <canvas id="canvas"></canvas>
+</div>
 <script>
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     ctx.fillStyle = "#000";
-    ctx.strokeStyle = "#000";
-    var width = canvas.width = 500;
-    var height = canvas.height = 500;
+    ctx.strokeStyle = "#222";
+    var width = canvas.width = canvas.parentElement.clientWidth;
+    var height = canvas.height = canvas.parentElement.clientHeight;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
     ctx.translate(width / 2, height / 2);
     noise.seed(Math.random());
 

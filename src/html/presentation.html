@@ -173,7 +173,7 @@ noise.simplex3(1,1,1);
     <div class="wrap__canvas-code">
         <div class="canvas__head">
             <h2>柏林噪音</h2>
-            <h3>Perlin oise</h3>
+            <h3>Perlin Noise</h3>
 
         </div>
         <div class="left">
@@ -358,7 +358,10 @@ noise.simplex3(1,1,1);
             yOffset += 2/100;
             animation = requestAnimationFrame(perlinWaveloop);
         }
-        window.initPerlinWave = function () {
+        window.initPerlinWave = function (canvas) {
+            if(canvas == undefined){
+
+            }
             lastPosition = null;
             xOffset = 0;
             yOffset = 0;
