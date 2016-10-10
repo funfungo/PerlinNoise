@@ -10,6 +10,9 @@
 
     var offset = 0;
     window.initPerlinCurve = function () {
+        if(animation !== null){
+            cancelAnimationFrame(animation);
+        }
         width = canvas.width = canvas.parentElement.clientWidth - 80;
         height = canvas.height = canvas.parentElement.clientHeight - 80;
         canvas.style.width = width + "px";
@@ -37,6 +40,9 @@
     };
 
     window.initRandomCurve = function () {
+        if(animation !== null){
+            cancelAnimationFrame(animation);
+        }
         lastPosition = null;
         ctx.clearRect(-width/2, -height/2, width, height);
         ctx.beginPath();
