@@ -14,8 +14,8 @@
     var xOffset = 0;
     var yOffset = 0;
     function perlinWaveloop() {
-        width = canvas.width = canvas.parentElement.clientWidth;
-        height = canvas.height = canvas.parentElement.clientHeight;
+        width = canvas.width = canvas.parentElement.clientWidth - 80;
+        height = canvas.height = canvas.parentElement.clientHeight - 80;
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
         ctx.strokeStyle = "#222";
@@ -46,6 +46,9 @@
         if(target !== undefined){
             canvas = target;
             ctx = target.getContext("2d");
+        }else {
+            canvas = document.getElementById("perlinWaveCanvas");
+            ctx = canvas.getContext("2d");
         }
         lastPosition = null;
         xOffset = 0;

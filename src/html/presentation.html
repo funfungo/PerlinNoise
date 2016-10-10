@@ -6,6 +6,7 @@
     <link href="../css/style-index.css" rel="stylesheet">
     <script src="../js/lib/jquery-1.11.1.min.js"></script>
     <script src="../js/lib/highlight.pack.js"></script>
+    <script src="../js/lib/p5.min.js"></script>
     <script src="../js/noise/perlin.js"></script>
     <script src="../js/util.js"></script>
     <script src="../js/vector3.js"></script>
@@ -152,20 +153,26 @@ function uniform2NormalDistribution(){
 //初始化
 noise.seed(Math.random());
 
-//取值
+
+//一维
+noise.simplex2(0,x);
+
 //二维
-noise.simplex2(1,1);
+noise.simplex2(x,y);
+
 //三维
-noise.simplex3(1,1,1);
+noise.simplex3(x,y,z);
 
             </code></pre>
         </div>
+
 
     </div>
     <div class="content__change">
         <a href="#" id="perlinCurve">reload</a>
         <a href="#" id="randomCurve">random</a>
         <a href="#" id="wave">wave</a>
+        <a href="#" id="perlin2D">2D</a>
     </div>
 </div>
 
@@ -173,11 +180,11 @@ noise.simplex3(1,1,1);
     <div class="wrap__canvas-code">
         <div class="canvas__head">
             <h2>柏林噪音</h2>
-            <h3>Perlin Noise</h3>
-
         </div>
-        <div class="left">
-            <canvas id="perlinWave"></canvas>
+
+
+        <div class="left" id="perlinTexture">
+
         </div>
         <div class="right">
             <pre><code class="javascript">
@@ -185,6 +192,11 @@ noise.simplex3(1,1,1);
 
             </code></pre>
         </div>
+    </div>
+    <div class="content__change">
+        <a href="#" id="grayScale">grayScale</a>
+        <a href="#" id="vector">vector</a>
+        <a href="#" id="vectorMove">vectorMove</a>
     </div>
 </div>
 <div class="index">
@@ -202,12 +214,15 @@ noise.simplex3(1,1,1);
 <script src="../js/canvas/perlinCurve.js"></script>
 <script src="../js/canvas/perlinWave.js"></script>
 <script src="../js/canvas/page2.js"></script>
+<script src="../js/canvas/perlinTexture.js"></script>
 <script>
 
-
+    var animation = null;
     var noise;
     var canvasPerlinWave = document.getElementById("perlinWaveCanvas");
     var canvasPerlinCurve = document.getElementById("perlinCurveCanvas");
+    var canvasGrayBox, canvasVector, canvasVectorMove;
+
     function changePage(index) {
         var tag = $(".index a").eq(index-1).attr("data-tag");
         $(".page").hide();
@@ -224,6 +239,17 @@ noise.simplex3(1,1,1);
         }
     }
 
+    function removeP5Animation() {
+        if(canvasGrayBox !== undefined){
+            canvasGrayBox.remove();
+        }
+        if(canvasVector !== undefined){
+            canvasVector.remove();
+        }
+        if(canvasVectorMove !== undefined){
+            canvasVectorMove.remove();
+        }
+    }
 
     initPageCanvas2();
     hljs.initHighlightingOnLoad();
@@ -255,22 +281,32 @@ noise.simplex3(1,1,1);
         else if(id == "wave"){
             initPerlinWave(canvasPerlinCurve);
         }
+        else if(id === "perlin2D"){
+            init2dPerlin();
+        }
+        else if(id == "grayScale"){
+            removeP5Animation();
+            canvasGrayBox = new p5(p5GrayBox, "perlinTexture");
+        }
+        else if(id == "vector"){
+            removeP5Animation();
+            canvasVector = new p5(p5Vector, "perlinTexture");
+
+        }
+        else if(id == "vectorMove"){
+            removeP5Animation();
+            canvasVectorMove = new p5(p5VectorMove, "perlinTexture");
+        }
+
     });
+
     $(".index a").on("click", function () {
         var index = $(this).parent().children().index($(this)) + 1;
         changePage(index);
     });
 
-
-    //动画
-    var animation = null;
-
-
-
-
-
     //debug
-    changePage(6);
+    changePage(7);
 </script>
 </body>
 </html>

@@ -10,6 +10,7 @@
 
     var offset = 0;
     window.initPerlinCurve = function () {
+
         if(animation !== null){
             cancelAnimationFrame(animation);
         }
@@ -17,7 +18,7 @@
         height = canvas.height = canvas.parentElement.clientHeight - 80;
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
-        ctx.translate(width / 2, height / 2);
+        ctx.translate(width / 2 - 0.5, height / 2 - 0.5) ;
         noise.seed(Math.random());
         lastPosition = null;
         ctx.clearRect(-width/2, -height/2, width, height);
