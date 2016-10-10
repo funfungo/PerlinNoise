@@ -9,7 +9,6 @@
     <script src="../js/noise/perlin.js"></script>
     <script src="../js/util.js"></script>
     <script src="../js/vector3.js"></script>
-    <script src="../js/canvas/page2.js"></script>
 </head>
 <body>
 <div class="page page1">
@@ -166,6 +165,7 @@ noise.simplex3(1,1,1);
     <div class="content__change">
         <a href="#" id="perlinCurve">reload</a>
         <a href="#" id="randomCurve">random</a>
+        <a href="#" id="wave">wave</a>
     </div>
 </div>
 
@@ -197,10 +197,17 @@ noise.simplex3(1,1,1);
     <a href="#">7</a>
     <a href="#">8</a>
 </div>
+
+
+<script src="../js/canvas/perlinCurve.js"></script>
+<script src="../js/canvas/perlinWave.js"></script>
+<script src="../js/canvas/page2.js"></script>
 <script>
 
 
     var noise;
+    var canvasPerlinWave = document.getElementById("perlinWaveCanvas");
+    var canvasPerlinCurve = document.getElementById("perlinCurveCanvas");
     function changePage(index) {
         var tag = $(".index a").eq(index-1).attr("data-tag");
         $(".page").hide();
@@ -245,6 +252,9 @@ noise.simplex3(1,1,1);
             initRandomCurve();
             $(".page6__index").hide();
         }
+        else if(id == "wave"){
+            initPerlinWave(canvasPerlinCurve);
+        }
     });
     $(".index a").on("click", function () {
         var index = $(this).parent().children().index($(this)) + 1;
@@ -255,122 +265,8 @@ noise.simplex3(1,1,1);
     //动画
     var animation = null;
 
-    //perlinCurve
-    (function () {
-        var canvas = document.getElementById("perlinCurveCanvas");
-        var ctx = canvas.getContext("2d");
-        ctx.strokeStyle = "#222";
-        var width = canvas.width = canvas.parentElement.clientWidth - 80;
-        var height = canvas.height = canvas.parentElement.clientHeight - 80;
-
-        var lastPosition = null;
-
-        var offset = 0;
-        window.initPerlinCurve = function () {
-            width = canvas.width = canvas.parentElement.clientWidth - 80;
-            height = canvas.height = canvas.parentElement.clientHeight - 80;
-            canvas.style.width = width + "px";
-            canvas.style.height = height + "px";
-            ctx.translate(width / 2, height / 2);
-            noise.seed(Math.random());
-            lastPosition = null;
-            ctx.clearRect(-width/2, -height/2, width, height);
-
-            ctx.beginPath();
-            for (var i = 0; i < width; i++) {
-
-                var noiseVal = noise.simplex2(1, i / 100 + offset);
-                var y = util.map(noiseVal, -1, 1, -height / 2, height / 2);
-                if(lastPosition === null){
-                    lastPosition = y;
-                }
-                ctx.moveTo(i - width / 2, lastPosition);
-                ctx.lineTo(i - width / 2, y);
-                lastPosition = y;
-            }
-            ctx.stroke();
-
-            lastPosition = 0;
-        };
-
-        window.initRandomCurve = function () {
-            lastPosition = null;
-            ctx.clearRect(-width/2, -height/2, width, height);
-            ctx.beginPath();
-            for (var i = 0; i < width; i++) {
-
-                var y = util.map(Math.random()-0.5, -0.5, 0.5, -height / 2, height / 2);
-                if(lastPosition === null){
-                    lastPosition = y;
-                }
-                ctx.moveTo(i - width / 2, lastPosition);
-                ctx.lineTo(i - width / 2, y);
-                lastPosition = y;
-            }
-            ctx.stroke();
-        };
 
 
-
-    })();
-
-
-    //perlinWave;
-    (function () {
-        var canvas = document.getElementById("perlinWaveCanvas");
-        var ctx = canvas.getContext("2d");
-
-        var width = canvas.width = canvas.parentElement.clientWidth - 80;
-        var height = canvas.height = canvas.parentElement.clientHeight - 80;
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
-        var lastPosition = null;
-
-        var offset = 0;
-        var xOffset = 0;
-        var yOffset = 0;
-        function perlinWaveloop() {
-            width = canvas.width = canvas.parentElement.clientWidth;
-            height = canvas.height = canvas.parentElement.clientHeight;
-            canvas.style.width = width + "px";
-            canvas.style.height = height + "px";
-            ctx.strokeStyle = "#222";
-            ctx.lineWidth = 1;
-            ctx.translate(width / 2, height / 2);
-            lastPosition = null;
-            ctx.clearRect(-width/2, -height/2, width, height);
-//            ctx.strokeStyle = "#999";
-
-            ctx.beginPath();
-            for (var i = 0; i < width; i++) {
-
-                var noiseVal = noise.simplex2(3+xOffset, i / 300 + yOffset);
-                var y = util.map(noiseVal, -1, 1, -70, 70);
-                if(lastPosition === null){
-                    lastPosition = y;
-                }
-                ctx.moveTo(i - width / 2, lastPosition);
-                ctx.lineTo(i - width / 2, y);
-                lastPosition = y;
-            }
-            ctx.stroke();
-            xOffset += 2/200;
-            yOffset += 2/100;
-            animation = requestAnimationFrame(perlinWaveloop);
-        }
-        window.initPerlinWave = function (canvas) {
-            if(canvas == undefined){
-
-            }
-            lastPosition = null;
-            xOffset = 0;
-            yOffset = 0;
-            if(animation !== null){
-                cancelAnimationFrame(animation);
-            }
-            perlinWaveloop();
-        }
-    })();
 
 
     //debug
