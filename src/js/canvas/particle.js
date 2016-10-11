@@ -26,8 +26,13 @@ function Particle(p) {
         this.acc.add(force);
     };
 
-    this.show = function() {
-        p.stroke(this.h, 255, 255, 25);
+    this.showDot = function () {
+        p.stroke(0);
+        p.strokeWeight(4);
+        p.point(this.pos.x, this.pos.y);
+    };
+    this.showLine = function() {
+        // p.stroke(this.h, 255, 255, 25);
         this.h = this.h + 1;
         if (this.h > 255) {
             this.h = 0;

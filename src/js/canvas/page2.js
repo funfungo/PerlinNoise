@@ -15,8 +15,8 @@ function initPageCanvas2() {
                          Math.floor(Math.random()*255) + "," +
                          "1)";
 
-            this.vx = Math.random()*3 +1;
-            this.vy = Math.random()*3 +1
+            this.vx = Math.random()*10 -5;
+            this.vy = Math.random()*10 -5;
         };
 
     dot.prototype.update = function() {
@@ -39,12 +39,12 @@ function initPageCanvas2() {
             ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
             ctx.fill();
             ctx.closePath();
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.lineTo(dots[i].x, dots[i].y);
-            // ctx.closePath();
-            ctx.strokeStyle = '#333';
-            ctx.stroke();
+            // ctx.beginPath();
+            // ctx.moveTo(this.x, this.y);
+            // ctx.lineTo(dots[i].x, dots[i].y);
+            // // ctx.closePath();
+            // ctx.strokeStyle = '#333';
+            // ctx.stroke();
             ctx.globalAlpha = 0.2
         }
 
@@ -66,7 +66,7 @@ function initPageCanvas2() {
         animation = requestAnimationFrame(loop);
     };
 
-    create(7);
+    create(10+Math.floor(Math.random()*10));
 
     loop();
 
