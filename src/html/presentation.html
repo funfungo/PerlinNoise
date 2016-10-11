@@ -10,6 +10,7 @@
     <script src="../js/noise/perlin.js"></script>
     <script src="../js/util.js"></script>
     <script src="../js/vector3.js"></script>
+    <script src="../js/canvas/particle.js"></script>
 </head>
 <body>
 <div class="page page1">
@@ -30,9 +31,6 @@
         <canvas class="canvas canvas2" width="600" height="500"></canvas>
     </div>
     <div class="content__change">
-        <a href="#">step1</a>
-        <a href="#">step2</a>
-        <a href="#">step3</a>
         <a href="http://tympanus.net/Tutorials/TheAviator/" target="_blank">demo1</a>
     </div>
 </div>
@@ -127,15 +125,28 @@ function uniform2NormalDistribution(){
         <a href="#">canvas</a>
     </div>
 </div>
+
 <div class="page page5">
     <div class="canvas__wrap">
         <div class="canvas__head">
             <h2>更加有趣的随机数?</h2>
         </div>
-        <canvas id="perlinWaveCanvas"></canvas>
+        <div class="step step0" style="height: 100%">
+            <canvas id="perlinWaveCanvas"></canvas>
+        </div>
+        <div class="step step1">
+            <img src="../img/texture.jpg">
+        </div>
+    </div>
+    <div class="content__change">
+        <a href="#">wave</a>
+        <a href="#">texture</a>
     </div>
 </div>
 <div class="page page6">
+
+</div>
+<div class="page page7">
     <div class="wrap__canvas-code">
         <div class="canvas__head">
             <h2>柏林噪音</h2>
@@ -176,7 +187,7 @@ noise.simplex3(x,y,z);
     </div>
 </div>
 
-<div class="page page7">
+<div class="page page8">
     <div class="wrap__canvas-code">
         <div class="canvas__head">
             <h2>柏林噪音</h2>
@@ -186,11 +197,12 @@ noise.simplex3(x,y,z);
         <div class="left" id="perlinTexture">
 
         </div>
-        <div class="right">
-            <pre><code class="javascript">
-
-
-            </code></pre>
+        <div class="right tl pseudocode">
+            <div class="step step0">
+                <p></p>
+            </div>
+            <div class="step step1">111</div>
+            <div class="step step3">111</div>
         </div>
     </div>
     <div class="content__change">
@@ -199,15 +211,41 @@ noise.simplex3(x,y,z);
         <a href="#" id="vectorMove">vectorMove</a>
     </div>
 </div>
+
+<div class="page page9">
+    <div class="wrap__canvas-code">
+        <div class="canvas__head">
+            <h2>一些🌰</h2>
+        </div>
+        <div id="perlinDemo">
+
+        </div>
+    </div>
+</div>
+
+<div class="page page10">
+    <div class="wrap__canvas-code">
+        <div class="canvas__head">
+            <h2>身边的🌰</h2>
+        </div>
+        <div class="img__wrap">
+            <img src="../img/map3.jpg">
+            <img src="../img/seed.jpg" class="img__seed">
+        </div>
+    </div>
+</div>
 <div class="index">
     <a href="#">1</a>
-    <a href="#">2</a>
+    <a href="#" data-tag="randomDemo">2</a>
     <a href="#">3</a>
     <a href="#">4</a>
     <a href="#" data-tag="perlinWave">5</a>
-    <a href="#" data-tag="perlinCurve">6</a>
-    <a href="#">7</a>
+    <a href="#">6</a>
+    <a href="#" data-tag="perlinCurve">7</a>
     <a href="#">8</a>
+    <a href="#" data-tag="perlinDemo">9</a>
+    <a href="#">10</a>
+
 </div>
 
 
@@ -221,7 +259,10 @@ noise.simplex3(x,y,z);
     var noise;
     var canvasPerlinWave = document.getElementById("perlinWaveCanvas");
     var canvasPerlinCurve = document.getElementById("perlinCurveCanvas");
-    var canvasGrayBox, canvasVector, canvasVectorMove;
+    var canvasGrayBox, canvasVector, canvasVectorMove,canvasPerlinDemo;
+    var inc = 0.1;
+    var scl = 20;
+    var cols, rows;
 
     function changePage(index) {
         var tag = $(".index a").eq(index-1).attr("data-tag");
@@ -237,6 +278,15 @@ noise.simplex3(x,y,z);
         else if(tag === "perlinWave"){
             initPerlinWave();
         }
+        else if(tag === "perlinDemo"){
+            if(canvasPerlinDemo == undefined){
+                canvasPerlinDemo = new p5(p5Demo1,"perlinDemo");
+                new p5(p5Demo2,"perlinDemo");
+            }
+        }
+        else if(tag === "randomDemo"){
+            initPageCanvas2();
+        }
     }
 
     function removeP5Animation() {
@@ -251,7 +301,6 @@ noise.simplex3(x,y,z);
         }
     }
 
-    initPageCanvas2();
     hljs.initHighlightingOnLoad();
     $(document).ready(function () {
         $('pre code').each(function (i, block) {
@@ -271,18 +320,21 @@ noise.simplex3(x,y,z);
             $(".active .step" + index).show();
         }
         else if(id == "perlinCurve"){
-            initPerlinCurve();
+//            initPerlinCurve();
+            initPerlin("perlinCurve");
             $(".page6__index").show();
         }
         else if(id == "randomCurve"){
-            initRandomCurve();
+            initPerlin("randomWave");
+//            initRandomCurve();
             $(".page6__index").hide();
         }
         else if(id == "wave"){
             initPerlinWave(canvasPerlinCurve);
         }
         else if(id === "perlin2D"){
-            init2dPerlin();
+            initPerlin("2d");
+//            init2dPerlin();
         }
         else if(id == "grayScale"){
             removeP5Animation();
@@ -305,8 +357,10 @@ noise.simplex3(x,y,z);
         changePage(index);
     });
 
+
+
     //debug
-    changePage(7);
+    changePage(8);
 </script>
 </body>
 </html>

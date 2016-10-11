@@ -22,7 +22,9 @@ body{
 	background: linear-gradient(#f1f1e8 96%, #ddd 96%) repeat-y;
 	background-size: 100% 35px;
 	position: relative;
+	overflow: hidden;
 }
+
 .canvas__wrap{
 	position: absolute;
 	top: 50%;
@@ -32,12 +34,26 @@ body{
 	height: 500px;
 	margin-left: -400px;
 }
+.img__wrap{
+	padding: 0 100px;
+	position: relative;
+	img{
+		max-width: 100%;
+	}
+}
+.img__seed{
+	position: absolute;
+	right: 100px;
+	bottom: 2px;
+	width: 300px;
+}
 .canvas{
 	width: 600px;
 	height: 500px;
 	background-color: transparent;
 }
 .page{
+	display: none;
 	text-align: center;
 	h2{
 		font-size: 30px;
@@ -55,6 +71,7 @@ body{
 	margin-top: -250px;
 }
 .left{
+	overflow: hidden;
 	height: 100%;
 	width: 50%;
 	box-sizing: border-box;
@@ -137,11 +154,10 @@ body{
 	display: block;
 }
 
-
 .page6__index{
     position: absolute;
     width: 1px;
-    height: 100%;
+    height: 470px;
     background-color: #222;
     left: 50%;
     top: 0;
@@ -152,4 +168,12 @@ body{
         left: 50%;
         margin-left: -14px;
     }
+}
+
+.pseudocode{
+	font-size: 24px;
+}
+//
+.tl{
+	text-align: left;
 }
