@@ -15,7 +15,7 @@
 <body>
 <div class="page page1">
     <div class="content">
-        <h1>动画中的随机数</h1>
+        <h1>动画中的随机值</h1>
         <h2>RANDOM FUNCTION IN ANIMATION</h2>
     </div>
 </div>
@@ -25,7 +25,7 @@
 
     <div class="canvas__wrap">
         <div class="canvas__head">
-            <h2>什么样的动画需要随机数?</h2>
+            <h2>什么样的动画需要随机值?</h2>
             <h3>需要算法生成的动画,例如:粒子动画</h3>
         </div>
         <canvas class="canvas canvas2" width="600" height="500"></canvas>
@@ -170,13 +170,13 @@ noise.seed(Math.random());
 
 
 //一维
-noise.simplex2(0,x);
+noise(x);
 
 //二维
-noise.simplex2(x,y);
+noise(x,y);
 
 //三维
-noise.simplex3(x,y,z);
+noise(x,y,z);
 
             </code></pre>
         </div>
